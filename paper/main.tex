@@ -19,13 +19,23 @@
 \usepackage{microtype}
 \usepackage{etoolbox}
 
+% Sayfa kenar boşluklarını ayarla
 \geometry{margin=2cm}
-\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
-\graphicspath{{../results/}}
+
+\graphicspath{{../images/}}
+
+% Bağlantı ayarları
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
 % Görseller için varsayılan ölçek ve oran koruma
 \setkeys{Gin}{width=1\linewidth, keepaspectratio}
 
-\title{Model Context Protocol (MCP) Güvenliği: Tehditler, Savunmalar ve Dağıtım Kılavuzu}
+\title{\textbf{Model Bağlam Protokolü (MCP) Güvenliği: Tehditler, Savunmalar ve Dağıtım Kılavuzu}}
 \author{Yusuf Talha ARABACI}
 \date{\today}
 
@@ -34,136 +44,119 @@
 \maketitle
 
 \begin{abstract}
-Bu çalışma, Model Context Protocol (MCP) protokolünün güvenlik açığını ve savunma stratejilerini incelemektedir. MCP, bağımsız ajanların ve dış sistemlerin etkileşimini sağlamak için yaygın olarak kullanılan bir protokoldür. Bu çalışmada, MCP'nin güvenlik tehditleri, potansiyel saldırı vektörleri, savunma önlemleri ve protokol düzeyinde uygulanabilir iyileştirmeler ele alınmaktadır. Ayrıca, bu protokolün güvenli bir şekilde dağıtılması için en iyi uygulamalar ve politika önerileri sunulmaktadır.
+    Bu çalışma, Model Context Protocol (MCP) protokolünün güvenlik açıklarını, potansiyel saldırı vektörlerini ve bu açıkların ortadan kaldırılması için alınması gereken savunma önlemlerini kapsamlı bir şekilde incelemektedir. MCP, otonom ajanların harici sistemlerle güvenli bir şekilde iletişim kurmasını sağlayan bir protokoldür. Bu rapor, MCP’nin güvenlik zafiyetlerini detaylandırarak, uygulama düzeyinde önerilen savunma stratejileri ile bu tehditlere karşı nasıl koruma sağlanabileceğini ele almaktadır.
 \end{abstract}
 
 \clearpage
 
 \section{Giriş}
 \label{sec:introduction}
-Model Context Protocol (MCP), otonom ajanların harici sistemlerle etkili ve güvenli bir şekilde etkileşimde bulunmasını sağlayan bir protokoldür. Bu protokol, günümüzün dinamik ve hızlı değişen teknolojileriyle uyumlu olarak, ajanların harici verilerle etkileşimini standartlaştırmak ve güvenli hale getirmek için tasarlanmıştır. Ancak, sistemin karmaşıklığı ve çoklu katmanlardan oluşan yapısı, güvenlik açığının ortaya çıkmasına neden olabilir.
+Model Context Protocol (MCP), otonom ajanlar ve harici sistemler arasındaki etkileşimi güvenli bir şekilde sağlayan bir protokoldür. MCP, daha önce statik olan dil modellerini (LLM) dinamik ve otonom ajanlara dönüştürerek büyük bir güvenlik açığı yaratmıştır. Bu protokolün kullanımı, birçok güvenlik tehditini gündeme getirmiştir. Örneğin, araçlar arası zehirlenme, prompt enjeksiyonu ve kimlik doğrulama eksiklikleri gibi klasik saldırı vektörlerinin yanı sıra, daha sofistike ve çok katmanlı saldırılar da ortaya çıkmaktadır. Bu çalışmanın temel amacı, bu tehditlere karşı etkili savunma stratejileri geliştirmektir.
 
-Bu çalışmanın katkıları şunlardır:
+\subsection{Çalışmanın Amacı ve Kapsamı}
+Bu çalışma, MCP protokolünün güvenlik analizini yaparak, aşağıdaki unsurlara odaklanmaktadır:
 \begin{itemize}
-    \item MCP protokolünün güvenlik açıkları detaylı bir şekilde analiz edilmiştir.
-    \item Bu güvenlik açıkları için kapsamlı savunma stratejileri ve önlemler önerilmiştir.
-    \item MCP'nin güvenli bir şekilde dağıtılması için en iyi uygulama rehberleri sunulmuştur.
-    \item Savunma önlemlerinin protokol düzeyindeki uygulamaları için teknik çözüm önerileri verilmiştir.
+    \item MCP protokolünün temel bileşenlerinin güvenlik zafiyetleri.
+    \item Otonom ajanların potansiyel saldırılara karşı nasıl savunulabileceği.
+    \item Savunma stratejilerinin protokol düzeyinde uygulanabilirliği.
+    \item Güvenli bir dağıtım süreci için gerekli en iyi uygulamalar.
 \end{itemize}
 
-\section{Arka Plan}
-\label{sec:background}
-MCP, bir istemci ve sunucu arasında veri iletimi ve etkileşimi sağlayan bir protokoldür. Bu protokolün temel amacı, bir ajanın harici sistemlerle güvenli ve etkin bir şekilde iletişim kurmasını sağlamak, ancak bu süreç, güvenlik açığına neden olabilecek birçok zayıf nokta barındırmaktadır.
-
-\subsection{MCP Mimarisi ve Mesaj Akışları}
-\label{subsec:mcp_architecture}
-MCP'nin yapısı, güvenlik açıklarının ve potansiyel saldırı vektörlerinin anlaşılması için oldukça önemlidir. MCP, istemci ve sunucu arasındaki iletişimi güvenli hale getirmek için bir dizi bileşenden oluşur. Bu bileşenler şunlardır:
-\begin{itemize}
-    \item \textbf{İstemci:} Kullanıcıya ait ajan veya harici sistemdir. Bu, sistemin ilk etkileşim noktasını temsil eder.
-    \item \textbf{Sunucu:} Veriyi yöneten ana sistemdir. İstemci tarafından sağlanan verileri işler ve yönlendirir.
-    \item \textbf{Taşıma Katmanı:} İstemci ve sunucu arasındaki veri iletimini sağlayan güvenli bir kanaldır. Genellikle SSL/TLS şifreleme protokolleri kullanılır.
-\end{itemize}
-Bu bileşenler arasındaki etkileşimler, saldırganların potansiyel olarak zayıf noktalar arayabileceği geniş bir yüzey alanı sunar.
+\section{MCP Mimarisi ve Tehdit Yüzeyi}
+\label{sec:mcp_architecture}
+MCP, dört ana bileşenden oluşur: İstemci (Client), Sunucu (Server), Araçlar (Tools) ve Taşıma Katmanı (Transport Layer). Bu bileşenlerin her biri farklı güvenlik tehditlerine açıktır ve güvenli bir sistem inşa etmek için her bir bileşenin özelliklerinin anlaşılması gereklidir.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{MCP_Protocol.png}
+\includegraphics[width=\textwidth]{protocol.png}
 \caption{Model Bağlam Protokolü (MCP) Mimarisi}
 \end{figure}
 
+\subsection{MCP Bileşenleri ve Güvenlik Sınırları}
+\label{subsec:mcp_components}
+MCP'nin temel yapısı ve bileşenleri, onun nasıl işlediğini ve bu süreçte hangi zayıflıkların ortaya çıkabileceğini anlamak için oldukça önemlidir. MCP protokolü, istemci ve sunucu arasındaki güvenli iletişimi sağlamak amacıyla tasarlanmış bir protokoldür. Bu protokoldeki güvenlik sınırları, her bileşenin erişim yetkilerine göre tanımlanır:
+\begin{itemize}
+    \item \textbf{İstemci (Client):} LLM’leri barındıran ortamdır. Bu bileşen, dış sistemlerle etkileşimde bulunurken en zayıf nokta olabilir. İstemci, harici verilerle etkileşime girerken büyük güvenlik riskleri taşıyabilir. Örneğin, istemciye dışardan gönderilen kötü niyetli girdiler, ajanın güvenliğini tehlikeye atabilir.
+    \item \textbf{Sunucu (Server):} Harici sistemlere veya verilere erişim sağlayan merkezi bileşendir. Sunucu, harici API'ler ve araçlarla bağlantı kurarak ajanı dış dünyaya bağlar. Ancak, sunuculara yönelik yapılan saldırılar, sistemin bütünlüğünü ciddi şekilde bozabilir.
+    \item \textbf{Araçlar (Tools):} MCP sunucusuna entegre edilmiş harici işlevler veya araçlar. Araçlar, ajanların görevlerini yerine getirmesi için kullanılır, ancak kötü niyetli araçlar ajanları manipüle edebilir.
+    \item \textbf{Taşıma Katmanı (Transport Layer):} Sunucu ve istemci arasındaki veri iletimini ve mesajlaşmayı sağlayan güvenli bir kanaldır. Genellikle SSL/TLS şifreleme protokolleri kullanılır. Ancak, taşıma katmanındaki zayıflıklar, tüm sistemin güvenliğini tehdit edebilir.
+\end{itemize}
+
+\subsection{Tehdit Yüzeyi ve Güvenlik Zafiyetleri}
+\label{subsec:threat_surface}
+MCP'nin mimarisi, geniş bir saldırı yüzeyi sunar. Bu yüzeydeki zafiyetler şunları içerebilir:
+\begin{itemize}
+    \item \textbf{Araç Zehirlenmesi (Tool Poisoning):} Sunucu veya istemciye kötü niyetli komutlar enjekte edilmesi, aracın manipüle edilmesine yol açabilir. Bu, ajanların yanlış işlevleri çağırmasına ve dolayısıyla sistemin yanlış çalışmasına neden olabilir.
+    \item \textbf{Prompt Enjeksiyonu (Prompt Injection):} Kullanıcı girdilerine kötü niyetli talimatlar eklenerek ajanın davranışı değiştirilir. Bu saldırılar, ajanın davranışını manipüle etmek için hedeflenebilir.
+    \item \textbf{Kimlik Doğrulama Eksiklikleri:} Yetersiz kimlik doğrulama sistemleri, izinsiz erişime neden olabilir. Bu zafiyet, iç ve dış tehdit aktörleri tarafından kolayca sömürülebilir.
+    \item \textbf{Veri Sızıntıları (Exfiltration):} Harici API'ler veya araçlar üzerinden kritik verilerin dışarı sızması. Bu durum, ajanın gizlilik politikalarını ihlal ederek hassas bilgilerin dışarıya çıkmasına yol açabilir.
+\end{itemize}
+
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{MCP_model.png}
+\includegraphics[width=\textwidth]{model.png}
 \caption{Model Bağlam Protokolü (MCP) Modeli}
 \end{figure}
 
+\section{Tehdit Modeli ve Saldırı Vektörleri}
+\label{sec:threat_model}
+MCP ile entegre edilmiş sistemlerdeki tehditlerin başında, ajanların güvenli olmayan verilerle etkileşime girmesi ve bunun sonucunda kritik verilerin sızması yer almaktadır. Bu bölüme göre, tehdit aktörleri, saldırı senaryoları ve bu senaryolara karşı geliştirilmesi gereken savunma önlemleri detaylandırılacaktır.
+
+\subsection{Tehdit Aktörleri ve Senaryoları}
+\label{subsec:threat_actors}
+MCP'nin güvenliğini tehdit eden aktörler ve olası saldırılar şunlar olabilir:
+\begin{itemize}
+    \item \textbf{Dış Saldırganlar:} Kötü niyetli bireyler veya hacker grupları, MCP sisteminin zafiyetlerinden yararlanarak ajanın planlama mantığını manipüle edebilirler. Bu tür saldırılar, ajanın dışarıya veri sızdırmasına veya yetkisiz işlemler gerçekleştirmesine neden olabilir.
+    \item \textbf{İç Saldırganlar:} Yetkili kişilerin sistemin güvenlik önlemlerini atlatmak için kötü niyetli davranışlar sergileyebileceği durumlar. İç saldırganlar, özellikle güçlü erişim haklarına sahip olduklarında ciddi tehditler oluşturabilir.
+    \item \textbf{Zararlı Yazılımlar:} MCP protokolünü hedef alarak ajanın işlevlerini manipüle eden yazılımlar. Zararlı yazılımlar, ajanın veri akışını yönlendirerek gizli bilgilerin sızdırılmasına yol açabilir.
+\end{itemize}
+
+\subsection{Saldırı Vektörleri}
+\label{subsec:attack_vectors}
+MCP, bir dizi saldırı vektörüne açıktır. Bu vektörler, ajanın güvenliğini tehdit edebilir ve farklı yollarla sisteme zarar verebilir. Öne çıkan saldırı vektörleri şunlardır:
+\begin{itemize}
+    \item \textbf{Araç Zehirlenmesi ve Plan Enjeksiyonu:} Ajanın karar verme sürecine kötü niyetli talimatlar enjekte edilmesi. Bu, ajanın görevleri yerine getirirken yanlış kararlar almasına yol açabilir.
+    \item \textbf{DoS (Denial of Service) ve Finansal DoS:} Ajanların gereksiz kaynak harcamalarına yol açan saldırılar, sistemin işleyişini zorlaştırabilir. Örneğin, aşırı token kullanımı veya maliyetli API çağrılarının yapılması.
+    \item \textbf{Veri Sızıntısı (Exfiltration):} Ajana kötü niyetli araçlar aracılığıyla hassas verilerin dışarı sızdırılması. Bu tür saldırılar, ajanın görevlerini kötüye kullanarak önemli bilgilerin çalınmasına neden olabilir.
+\end{itemize}
+
+\section{Savunma Stratejileri ve İyi Uygulamalar}
+\label{sec:defense_strategies}
+Gelişmiş savunma stratejileri, sistemin zafiyetlerine karşı korunması için kritik öneme sahiptir. Bu bölümde, MCP protokolünün güvenliğini sağlamak için önerilen stratejiler ele alınacaktır.
+
+\subsection{Sistem Düzeyinde Savunmalar}
+\label{subsec:system_defenses}
+Sistem düzeyinde alınması gereken savunmalar:
+\begin{itemize}
+    \item \textbf{Bilgi Akışı Kontrolü (IFC):} Ajana giren ve çıkan tüm verilerin izlenmesi ve etiketlenmesi. Bu mekanizma, zehirli verilerin ajanın muhakeme akışına dahil olmasını engeller.
+    \item \textbf{Dinamik Taint-Tracking:} Güvenlik açısından şüpheli verilerin izlenmesi ve yanlış eylemlerle sonuçlanmaması için engellenmesi. Bu yöntem, özellikle veri sızıntılarına karşı etkilidir.
+    \item \textbf{Muhakeme ve Planlama Doğrulaması:} Ajana verilen görevlerin doğruluğunun sağlanması için sürekli olarak plan doğrulama mekanizmalarının uygulanması. Böylece, yanlış veya zararlı görevlerin ajana verilmesi engellenir.
+\end{itemize}
+
+\subsection{Taşıma Katmanı ve Kimlik Doğrulama Stratejileri}
+\label{subsec:transport_defenses}
+Taşıma katmanında, güvenli veri iletimi için şu önlemler alınabilir:
+\begin{itemize}
+    \item \textbf{SSL/TLS Şifrelemesi:} Verinin iletilmesi sırasında güvenliği sağlamak için şifreleme protokollerinin uygulanması. Bu, verilerin güvenliğini artırır ve dinleme saldırılarına karşı korur.
+    \item \textbf{OAuth 2.0 Kimlik Doğrulaması:} İstemci ve sunucu arasındaki güvenli bağlantının sağlanabilmesi için güçlü kimlik doğrulama protokollerinin kullanılması. Bu, yalnızca yetkili kullanıcıların erişim sağlamasına olanak tanır.
+\end{itemize}
+
+\subsection{Ajan Güvenliği ve İzleme}
+\label{subsec:agent_security}
+Ajansların güvenliği için izleme ve denetleme mekanizmaları gereklidir:
+\begin{itemize}
+    \item \textbf{Sandboxing:} Ajanların yalnızca izole edilmiş ortamda çalışması sağlanarak, kötü niyetli eylemlerin yayılmasının önlenmesi. Sandboxing, ajanın dışarıya zarar vermesini engeller.
+    \item \textbf{Görev Denetimi:} Ajana verilen görevlerin sürekli olarak izlenmesi ve yanlış bir karar almasını önlemek için güvenlik önlemlerinin devreye girmesi. Bu mekanizma, ajanın görev dışı hareketlerini engelleyebilir.
+\end{itemize}
+
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\textwidth]{MCP_protocol.png}
+\includegraphics[width=\textwidth]{diagram.png}
 \caption{Model Bağlam Protokolü (MCP) Protokol Akışı}
 \end{figure}
 
-\subsection{Güven Sınırları ve Bileşenler}
-\label{subsec:trust_boundaries}
-MCP'nin güven sınırları, istemci, sunucu ve taşıma katmanı arasındaki etkileşimler tarafından belirlenir. Bu sınırların belirlenmesi, hangi bileşenin hangi kaynaklara erişebileceğini ve potansiyel olarak hangi bileşenlerin saldırıya uğrayabileceğini anlamada kritik bir öneme sahiptir. Güven sınırları şu şekilde özetlenebilir:
-\begin{itemize}
-    \item \textbf{İstemci-Sunucu Arası:} İstemci ve sunucu arasındaki iletişim, güvenli olmayan ağlarda veri iletimi yapmak zorunda kaldığında kritik riskler taşır.
-    \item \textbf{Sunucu-Taşıma Katmanı Arası:} Sunucu ve taşıma katmanı arasındaki güvenlik, veri şifrelemesi ve kimlik doğrulama gibi önlemlerle korunur.
-\end{itemize}
-
-\section{Tehdit Modeli}
-\label{sec:threat_model}
-MCP protokolünün güvenliğini tehdit eden aktörler ve potansiyel saldırı senaryolarını anlamak, bu tehditlere karşı stratejiler geliştirmek için temel bir adımdır. Aşağıda, bu tehditlere yönelik aktörler ve varsayımlar ile birlikte, sistemin saldırıya uğrayabileceği yüzey alanları detaylandırılmaktadır.
-
-\subsection{Tehdit Aktörleri ve Varsayımlar}
-\label{subsec:threat_actors}
-MCP'nin güvenliği, farklı tehdit aktörleri tarafından hedef alınabilir. Bu aktörler şunlar olabilir:
-\begin{itemize}
-    \item \textbf{Dış Saldırganlar:} Kötü niyetli bireyler veya gruplar, MCP protokolünün güvenlik zafiyetlerinden yararlanarak sisteme sızmaya çalışabilirler. Örneğin, ağ üzerinden veri sızdırmak için güvenlik açıkları arayabilirler.
-    \item \textbf{İç Saldırganlar:} Sistemin içerisine sızmış ve yetkileri aşarak güvenlik önlemlerini bypass edebilen kötü niyetli çalışanlar.
-    \item \textbf{Zararlı Yazılımlar:} Sisteme entegre olmuş kötü amaçlı yazılımlar, MCP protokolü aracılığıyla veri sızdırabilir veya sisteme zarar verebilir.
-\end{itemize}
-Bu aktörlerin hedefleri arasında hassas veriler, sistem kaynakları ve iletişim kanalları yer alır.
-
-\subsection{Saldırı Yüzeyi}
-\label{subsec:attack_surface}
-MCP'nin bileşenleri geniş bir saldırı yüzeyi yaratır. Bu yüzeydeki potansiyel zayıf noktalar şunlar olabilir:
-\begin{itemize}
-    \item \textbf{Dış Araç Sunucuları:} Ajanların etkileşimde bulunduğu sunucular, dış saldırganların hedef alabileceği ilk noktalar olabilir.
-    \item \textbf{Eklentiler:} Üçüncü parti yazılımlar, sistemin güvenliğini tehdit edebilir ve saldırganların sisteme sızmasını kolaylaştırabilir.
-    \item \textbf{Ajanlar Arası İletişim (A2A):} Ajanlar arasındaki iletişim, saldırganların ajanlar arasında bilgi sızdırmak için kullanabileceği bir alan oluşturur.
-    \item \textbf{Dosya ve Dosya Sistemi:} Dosya manipülasyonları, sistemin güvenlik kontrolünü aşarak saldırıya uğrayabilir.
-    \item \textbf{Ağ İletişimi:} İletim sırasında karşılaşılan zayıf noktalar, ağ üzerinden veri sızdırmak için kullanılabilir.
-\end{itemize}
-
-\section{Zafiyetler ve Saldırılar}
-\label{sec:vulnerabilities}
-MCP protokolündeki çeşitli zafiyetler, saldırganların sisteme zarar vermesine veya veri sızdırmasına yol açabilir. Bu bölümde, bu zafiyetlerin detaylı bir analizi yapılacaktır.
-
-\subsection{Prompt/Tool Zehirlenmesi}
-\label{subsec:prompt_poisoning}
-Saldırganlar, istemciye verilen komutları manipüle ederek ajanların davranışlarını değiştirebilir. Bu tür saldırılar, ajanların doğru olmayan işlemler yapmasına yol açabilir. Örneğin, kötü niyetli komutlar aracılığıyla ajanlar, dış sistemlere zarar verebilir.
-
-\subsection{Plan Enjeksiyonu}
-\label{subsec:plan_injection}
-Plan enjeksiyonu, ajanların karar alma süreçlerini hedef alan bir saldırıdır. Saldırganlar, planları manipüle ederek ajanların yanlış eylemler yapmasına neden olabilir. Bu tür saldırılar, ajanın belirli hedeflere yönelik stratejik kararlar almasını engelleyebilir.
-
-\subsection{Uzak Kod Çalıştırma (RCE) ve SSRF/DNS Rebinding}
-\label{subsec:rce_ssrf}
-Sunuculara uzak komut enjekte edilmesi, sistemin kontrolünü ele geçirmeye olanak tanır. Ayrıca, SSRF (Sunucu Tarafı İstek Sahteciliği) veya DNS yeniden bağlama gibi saldırılar, dış sistemlere erişim sağlamak için kullanılabilir.
-
-\subsection{Kimlik Doğrulama ve Yetkilendirme Açıkları}
-\label{subsec:authn_z_gaps}
-Yetersiz kimlik doğrulama ve yetkilendirme mekanizmaları, sisteme izinsiz erişim sağlayabilir. Bu tür güvenlik açıkları, özellikle iç saldırganlar tarafından kötüye kullanılabilir.
-
-\subsection{Tedarik Zinciri Saldırıları}
-\label{subsec:supply_chain}
-Sisteme entegre olan üçüncü parti yazılımlar veya araçlar, tedarik zincirindeki zayıflıklar sayesinde saldırganlar tarafından manipüle edilebilir. Bu tür saldırılar, sistemin güvenliğini ciddi şekilde zayıflatabilir.
-
-\section{Savunmalar ve En İyi Uygulamalar}
-\label{sec:defenses}
-Zafiyetlerin tespit edilmesinin ardından, bu zafiyetleri önlemek için çeşitli savunma mekanizmaları önerilmektedir.
-
-\subsection{Savunma Yöntemleri}
-\label{subsec:defensive_mechanisms}
-\begin{itemize}
-    \item \textbf{İzolasyon/Sandboxing:} Ajanlar izole alanlarda çalıştırılarak kötü niyetli eylemlerin yayılmasının önüne geçilebilir.
-    \item \textbf{En Az Ayrıcalık:} Ajanların yalnızca gerekli olan kaynaklara erişmesi sağlanır, bu da sistemin saldırılara karşı dayanıklılığını artırır.
-    \item \textbf{Doğrulama ve Politika Uygulama:} Girdi ve çıktı doğrulama işlemleri sistemin güvenliğini artırır.
-    \item \textbf{Gözetleme (Observability):} Anomalilerin tespiti için güçlü izleme araçları kullanılmalıdır.
-    \item \textbf{Rate Limiting:} Aşırı kaynak tüketimi önlenebilir.
-\end{itemize}
-
-\subsection{Protokol Düzeyinde Savunmalar}
-\label{subsec:protocol_level}
-Protokol seviyesinde, kimlik doğrulama ve güvenlik sağlamak için aşağıdaki öneriler sunulmaktadır:
-\begin{itemize}
-    \item \textbf{İmzalar ve Yetenek Tanımlayıcıları:} Mesajların bütünlüğünü sağlamak için imza kullanılabilir.
-    \item \textbf{Doğrulama (Attestation):} Sistem bileşenlerinin güvenliğini doğrulamak için attestation mekanizmaları kullanılabilir.
-\end{itemize}
-
-\section{Sonuç}
+\section{Sonuç ve Gelecek Yönelimleri}
 \label{sec:conclusion}
-Bu çalışma, Model Context Protocol (MCP) güvenliğine dair önemli tehditleri ve savunma stratejilerini incelemiştir. Güvenlik önlemleri, özellikle protokol düzeyinde alınacak tedbirlerle önemli ölçüde iyileştirilebilir. Gelecekteki çalışmalar, yeni saldırı tekniklerini ve daha sofistike savunma yöntemlerini keşfetmeye odaklanmalıdır.
+Model Context Protocol (MCP), otonom ajanların etkin bir şekilde harici sistemlerle etkileşimde bulunmalarını sağlayan bir protokoldür. Ancak bu yeni protokol, aynı zamanda güvenlik açısından çeşitli riskler taşımaktadır. Bu çalışmada, MCP'nin güvenlik tehditleri ve savunma stratejileri detaylı bir şekilde incelenmiştir. Gelecekteki çalışmalar, bu tehditlere karşı daha ileri düzey savunma stratejileri geliştirmeye ve sistemin güvenliğini artırmaya odaklanmalıdır.
 
 \end{document}
