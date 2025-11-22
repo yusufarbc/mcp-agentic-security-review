@@ -1,5 +1,7 @@
 # MCP-Agentic-Security-Review
 
+https://yusufarbc.github.io/MCP-Agentic-Security-Review/
+
 Bu repo, Model Context Protocol (MCP) ekosisteminin mimari ve güvenlik boyutlarını inceleyen akademik çalışmayı, kullanılan görsel/video materyallerini ve literatür referanslarını bir araya getirir.
 
 - `paper/` — IEEE formatında LaTeX makale taslağı ve derlenmiş PDF.
