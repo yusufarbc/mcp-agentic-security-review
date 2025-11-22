@@ -28,4 +28,3 @@ dist/
 *.synctex.gz
 paper/*.synctex*
 *.toc
-paper/*.pdf
