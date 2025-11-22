@@ -5,20 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MCP Agentic Security Review</title>
   <style>
+    :root {
+      color-scheme: dark;
+      --bg: #020617;
+      --bg-panel: rgba(15, 23, 42, 0.8);
+      --border: rgba(148, 163, 184, 0.3);
+      --accent-1: #0ea5e9;
+      --accent-2: #22d3ee;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --radius: 24px;
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+    }
+
     * {
       box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      font-family: "Segoe UI", Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(circle at top, #0f172a 0%, #020617 55%, #010409 100%);
-      color: #e2e8f0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 10% 20%, rgba(14, 165, 233, 0.25), transparent 45%),
+        radial-gradient(circle at 90% 0%, rgba(34, 211, 238, 0.2), transparent 40%),
+        var(--bg);
+      color: var(--text);
       line-height: 1.6;
     }
 
     a {
-      color: #7dd3fc;
+      color: var(--accent-1);
       text-decoration: none;
     }
 
@@ -26,417 +41,421 @@
       text-decoration: underline;
     }
 
-    .hero {
-      padding: 4rem 1.5rem 2rem;
-      text-align: center;
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(2, 6, 23, 0.95);
+      padding: 1.5rem 1.75rem;
+      border-bottom: 1px solid var(--border);
+      z-index: 10;
     }
 
-    .hero h1 {
-      margin: 0 auto 1rem;
-      font-size: clamp(2.35rem, 4vw, 3.5rem);
-      letter-spacing: -0.02em;
-      color: #f8fafc;
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    nav h1 {
+      font-size: 1.25rem;
+      margin: 0;
+      letter-spacing: 0.02em;
+    }
+
+    nav .links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      font-size: 0.95rem;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .hero {
+      padding: 3.5rem 2rem;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(2, 6, 23, 0.8));
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+      box-shadow: 0 25px 60px rgba(2, 6, 23, 0.7);
+    }
+
+    .hero h2 {
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      font-size: clamp(2.1rem, 4vw, 2.9rem);
     }
 
     .hero p {
-      margin: 0 auto;
-      max-width: 720px;
+      color: var(--muted);
+      max-width: 780px;
+      margin: 0;
       font-size: 1.15rem;
-      color: #94a3b8;
     }
 
-    .chips {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      margin: 1.5rem auto 0;
+    .hero .hero-meta {
+      margin-top: 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
     }
 
-    .chip {
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      padding: 0.35rem 0.85rem;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      color: #cbd5f5;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 0 1.5rem 4rem;
-    }
-
-    .panel {
+    .meta-card {
+      padding: 1rem 1.25rem;
+      border-radius: 18px;
+      border: 1px solid var(--border);
       background: rgba(15, 23, 42, 0.7);
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      border-radius: 24px;
-      padding: 2rem;
-      margin-bottom: 1.75rem;
-      box-shadow: 0 35px 80px rgba(2, 6, 23, 0.65);
     }
 
-    .panel h2 {
+    .meta-card span {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .meta-card strong {
+      display: block;
+      margin-top: 0.35rem;
+      font-size: 1.05rem;
+    }
+
+    section {
+      margin-bottom: 2rem;
+    }
+
+    section h3 {
       margin-top: 0;
-      font-size: 1.75rem;
-      color: #f1f5f9;
-    }
-
-    .panel h3 {
-      margin-bottom: 0.35rem;
-      color: #bae6fd;
+      font-size: 1.6rem;
+      margin-bottom: 0.75rem;
     }
 
     .grid {
       display: grid;
-      gap: 1.3rem;
+      gap: 1.25rem;
     }
 
-    @media (min-width: 760px) {
+    @media (min-width: 900px) {
       .grid-2 {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-
       .grid-3 {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
 
-    .card {
-      padding: 1.3rem;
-      border-radius: 18px;
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      background: rgba(15, 23, 42, 0.55);
+    .glass-panel {
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg-panel);
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.6);
     }
 
-    .card ul {
-      margin: 0.6rem 0 0;
-      padding-left: 1.15rem;
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
     }
 
-    .meta-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1rem;
-      margin-top: 2rem;
-    }
-
-    .meta {
-      padding: 1.2rem;
-      border-radius: 20px;
-      border: 1px solid rgba(148, 163, 184, 0.25);
-      background: rgba(8, 47, 73, 0.4);
-      text-align: left;
-    }
-
-    .meta span {
-      display: block;
-      font-size: 0.85rem;
+    .tag {
+      border: 1px solid rgba(14, 165, 233, 0.6);
+      border-radius: 999px;
+      padding: 0.25rem 0.8rem;
+      font-size: 0.8rem;
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      color: #7dd3fc;
-      margin-bottom: 0.35rem;
+      color: var(--accent-1);
     }
 
-    .meta strong {
-      font-size: 1.1rem;
-      color: #e0f2fe;
+    ul {
+      padding-left: 1.15rem;
+      margin: 0;
     }
 
-    code {
-      background: rgba(15, 23, 42, 0.8);
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.45rem;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      font-size: 0.95rem;
-      color: #e2e8f0;
-    }
-
-    pre {
-      background: rgba(15, 23, 42, 0.8);
-      padding: 1rem;
-      border-radius: 16px;
-      border: 1px solid rgba(148, 163, 184, 0.2);
-      overflow-x: auto;
+    li + li {
+      margin-top: 0.45rem;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
       font-size: 0.95rem;
+      margin-top: 1rem;
     }
 
     th, td {
-      padding: 0.75rem;
+      padding: 0.85rem 0.5rem;
       border-bottom: 1px solid rgba(148, 163, 184, 0.2);
     }
 
     th {
+      color: var(--accent-2);
       text-align: left;
-      color: #bae6fd;
     }
 
     figure {
       margin: 1.5rem 0;
-      text-align: center;
     }
 
     figure img, figure video {
       width: 100%;
       border-radius: 20px;
-      border: 1px solid rgba(148, 163, 184, 0.25);
+      border: 1px solid var(--border);
+      display: block;
     }
 
     figure figcaption {
-      margin-top: 0.5rem;
-      color: #94a3b8;
+      margin-top: 0.4rem;
+      color: var(--muted);
       font-size: 0.9rem;
     }
 
-    .steps {
-      counter-reset: step;
+    ol {
+      margin: 0;
+      padding-left: 1.15rem;
     }
 
-    .steps li {
-      list-style: none;
-      position: relative;
-      padding-left: 2.8rem;
-      margin-bottom: 1.2rem;
-    }
-
-    .steps li::before {
-      counter-increment: step;
-      content: counter(step);
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 2rem;
-      height: 2rem;
-      border-radius: 50%;
-      border: 1px solid rgba(148, 163, 184, 0.35);
+    .step-card {
+      padding: 1.25rem;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      background: rgba(2, 6, 23, 0.75);
       display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #7dd3fc;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .step-card span {
+      font-size: 0.8rem;
       font-weight: 600;
+      color: var(--accent-1);
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 3rem;
     }
   </style>
 </head>
 <body>
-  <header class="hero">
-    <div class="chips">
-      <span class="chip">Model Context Protocol</span>
-      <span class="chip">Agentic Security</span>
-      <span class="chip">Akademik Derleme</span>
-    </div>
-    <h1>MCP Agentic Security Review</h1>
-    <p>
-      Bu sayfa, deponun icerigini tek bir noktada anlatmak icin hazirlandi. Makale taslagi,
-      gorsel/video varliklari ve 18 calismalik literatur kutuphanesinin nasil organize edildigini,
-      hangi bulgulara odaklandigini ve projeyi nasil kullanabileceginizi ozetler.
-    </p>
-    <div class="meta-grid">
-      <div class="meta">
-        <span>Odak</span>
-        <strong>MCP mimarisi, tehdit modeli ve agentic guvenlik</strong>
+  <header>
+    <nav>
+      <h1>MCP Agentic Security Review</h1>
+      <div class="links">
+        <a href="#forecast">Neler Var</a>
+        <a href="#security">Güvenlik</a>
+        <a href="#media">Medya</a>
+        <a href="#references">Referanslar</a>
+        <a href="#usage">Nasıl Kullanılır</a>
       </div>
-      <div class="meta">
-        <span>Ana ciktı</span>
-        <strong><a href="paper/paper.pdf">paper/paper.pdf</a> (IEEE makale)</strong>
-      </div>
-      <div class="meta">
-        <span>Veri tabani</span>
-        <strong>18 PDF referans &amp; medya demosu</strong>
-      </div>
-    </div>
+    </nav>
   </header>
 
-  <main class="container">
-    <section class="panel">
-      <h2>Depo Yapisi</h2>
-      <p>Temel dosyalar ve klasorler, MCP ekosisteminin teknik ve gorsel anlatimini uc katmanda toparlar.</p>
-      <div class="grid grid-2">
-        <div class="card">
-          <h3><code>paper/</code></h3>
-          <p>IEEEtran sablonu uzerinde hazirlanan ana makale, sekil ve derleme ciktisini icerir.</p>
+  <main>
+    <section class="hero">
+      <h2>Model Context Protocol ekosistemini kaşif gibi inceleyen akademik güvenlik derlemesi</h2>
+      <p>
+        Bu depo paper taslağı, medya varlıkları ve 18 PDF referansından oluşan literatür kütüphanesiyle MCP
+        odaklı güvenlik araştırmasının teknik, operasyonel ve iletişim katmanlarını anlatıyor. İstanbul merkezli
+        akademik anlatımın Türkçe ve İngilizce detaylarını tek sayfada toparladık.
+      </p>
+      <div class="hero-meta">
+        <div class="meta-card">
+          <span>Çalışma türü</span>
+          <strong>IEEE formatında akademik makale</strong>
+        </div>
+        <div class="meta-card">
+          <span>Satır bazlı içerik</span>
+          <strong>paper/paper.tex + reference/Readme.md</strong>
+        </div>
+        <div class="meta-card">
+          <span>Medya</span>
+          <strong>Infografik, mimari, demo video</strong>
+        </div>
+        <div class="meta-card">
+          <span>Güvenlik perspektifi</span>
+          <strong>Threat Taxonomy, IPC + Guard modelleri</strong>
+        </div>
+      </div>
+    </section>
+
+    <section id="forecast" class="glass-panel">
+      <div class="tag-row">
+        <span class="tag">Yol haritası</span>
+        <span class="tag">Geliştirme</span>
+        <span class="tag">Referans</span>
+      </div>
+      <h3>Depodaki her katmanın kısa özeti</h3>
+      <div class="grid grid-3">
+        <div class="glass-panel" style="padding:1.5rem">
+          <h4>paper/</h4>
+          <p>IEEEtran şablonu ile yazılmış <code>paper.tex</code>, derleme çıktısı <code>paper.pdf</code> ve ek log+aux dosyalarını barındırır.</p>
           <ul>
-            <li><code>paper.tex</code>, <code>paper.pdf</code>, <code>paper.log</code></li>
-            <li><code>protocol.png</code>: istemci-sunucu akisi</li>
-            <li>Yardimci dosyalar: <code>IEEEtran.cls</code>, <code>paper.aux</code></li>
+            <li>MCP mimarisi, STDIO/HTTP taşıyıcı, tehdit azaltımı</li>
+            <li>Güvenlik ekleri (Ek A-D) ve kaynakça</li>
+            <li><code>protocol.png</code> ile istemci-sunucu akışı</li>
           </ul>
         </div>
-        <div class="card">
-          <h3><code>media/</code></h3>
-          <p>Sunum ve anlatimlarda kullanilan gorsel/video seti.</p>
+        <div class="glass-panel" style="padding:1.5rem">
+          <h4>media/</h4>
+          <p>Görsel anlatım ve demo video. YouTube embed + yerel MP4 dosyası var.</p>
           <ul>
-            <li><code>infografik.png</code> &amp; <code>MCP.png</code></li>
-            <li><code>Yapay_Zeka_Ajanlari.mp4</code> + YouTube embed</li>
-            <li><code>README.md</code>: video iframe ve dosya aciklamalari</li>
+            <li>infografik: tehdit taksonomisi</li>
+            <li>MCP mimarisi: sistem bileşenleri</li>
+            <li>Yapay Zeka Ajanları demosu (MP4 + embed)</li>
           </ul>
         </div>
-        <div class="card">
-          <h3><code>reference/</code></h3>
-          <p>MCP mimarisi, benchmark ve guvenlik temalarini kapsayan 18 makale PDF'i.</p>
+        <div class="glass-panel" style="padding:1.5rem">
+          <h4>reference/</h4>
+          <p>01-18 numaralandırılmış PDF kütüphanesi; Readme dosyası her kaynağı Türkçe ve İngilizce özetler.</p>
           <ul>
-            <li>01-18 arasinda numaralanmis kaynaklar</li>
-            <li><code>Readme.md</code>: her kaynağın TR &amp; EN ozetleri</li>
-            <li>Zengin tehdit ve savunma verileri</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Kok Dosyalar</h3>
-          <p>Depo konfigurasyonu ve ozet.</p>
-          <ul>
-            <li><code>README.md</code>: proje ozet ve hizli bakis</li>
-            <li><code>.editorconfig</code>, <code>.gitattributes</code>, <code>.gitignore</code></li>
+            <li>Güvenlik odaklı benchmark, stress test, savunma çerçeveleri</li>
+            <li>MCPGAUGE, AutoMalTool, A2AS, MCP-Guard</li>
+            <li>Ekonomik ajanlar, ulaştırma sistemleri, bioinformatik MCP</li>
           </ul>
         </div>
       </div>
     </section>
 
-    <section class="panel">
-      <h2>Makale ve Bulgular</h2>
+    <section class="glass-panel" id="security">
+      <h3>Güvenlik ve tehdit panoraması</h3>
       <div class="grid grid-2">
-        <div class="card">
-          <h3>Vurgulanan Basliklar</h3>
+        <div class="glass-panel" style="padding:1.5rem">
+          <h4>Tehdit taksonomisi</h4>
           <ul>
-            <li>MCP'nin USB-C benzeri baglanti standardi vizyonu</li>
-            <li>STDIO vs HTTP/SSE tasiyici secimleri ve LLM planlama dongusu</li>
-            <li>Agentik kullanimlar: IDE entegrasyonu, tasarimdan koda otomasyon, cihaz kontrolu</li>
-            <li>Acil tehditler: arac zehirleme, prompt enjeksiyonu, acik sunucular, tedarik zinciri</li>
-            <li>Katmanli savunma: sandbox, guard model, OAuth/mTLS, davranis izlemi</li>
+            <li>4 aktör (kötü niyetli geliştirici, kötü niyetli kullanıcı, dış saldırgan, yazılım hataları)</li>
+            <li>16 senaryo: araç zehirlenmesi, prompt enjeksiyonu, girdi doğrulama hataları</li>
+            <li>1899 sunuculuk analizde %7.2 açık, %5.5 araç zehirlenmesi, %66 kod kokusu</li>
+            <li>Benchmark örnekleri: MCPGAUGE, MCPToolBench++, LiveMCP-101</li>
           </ul>
         </div>
-        <div class="card">
-          <h3>Derleme Akisi</h3>
-          <p>Makale icin ayni README'de paylasilan klasik IEEE derleme adimlari:</p>
-          <pre><code>cd paper
-pdflatex paper.tex
-bibtex paper
-pdflatex paper.tex
-pdflatex paper.tex</code></pre>
-          <p>MiKTeX veya TeX Live dagitimi ile uyumlu. <code>protocol.png</code> sekli makale icindeki figuru referanslar.</p>
-        </div>
-      </div>
-      <p>Rapor bolumleri: giris, amac ve kullanim alanlari, katman mimarisi, tehdit tablosu, yamalar, topluluk tartismalari ve AI ajan guvenlik protokollerini kapsayan ekler (Ek A-D).</p>
-    </section>
-
-    <section class="panel">
-      <h2>Guvenlik Temalari</h2>
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>Tehdit Taksonomisi</h3>
+        <div class="glass-panel" style="padding:1.5rem">
+          <h4>Savunma katmanları</h4>
           <ul>
-            <li>4 aktor (kotu niyetli gelistirici/kullanici, dis saldirgan, yazilim hatalari)</li>
-            <li>16 senaryo: arac zehirleme, golge sunucu, dolayli prompt enjeksiyonu, sandbox kacisi</li>
-            <li>1899 sunuculuk taramada %7.2 acik, %5.5 arac zehirleme, %66 kod kokusu</li>
-            <li>MCPGAUGE, MCPToolBench++, LiveMCP-101 gibi benchmark setleri ile performans/stres testleri</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Savunma Stratejisi</h3>
-          <ul>
-            <li>IFC + taint tracking ile kritik eylem korumasi</li>
-            <li>Sandbox profilleri, min yetki ve kaynak bazli kuotalar</li>
-            <li>TLS/mTLS, OAuth 2.1, scoped tokenlar, imzali paket &amp; SBOM</li>
-            <li>Plan tabanli testler, red team kosulari (AutoMalTool), guard modelleri</li>
-            <li>OpenAPI'den otomatik MCP sunucu uretimi ile insan hatasini azaltma</li>
+            <li>IFC + taint-tracking, en az yetki, sandbox profilleri</li>
+            <li>TLS/mTLS, OAuth 2.1 + scoped token, SBOM ve imzalı paket</li>
+            <li>Guard modelleri, AutoMalTool red team prosedürleri</li>
+            <li>OpenAPI'den AutoMCP derleyici, plan tabanlı testler</li>
           </ul>
         </div>
       </div>
-      <p><strong>Risk vs Savunma:</strong> Prompt enjeksiyonu ve veri zehirlenmesi icin giris/akis denetimi, DoS icin rate limiting, gizlilik icin FPETS/FHE, ajan-ajan iletisimde A2AS protokolune dair cagri.</p>
+      <p style="color: var(--muted); margin-top: 1rem;">Prompt enjeksiyonu, veri zehirlenmesi, DoS ve gizlilik ihlallerine karşı katmanlı kontroller önerilir; referans makalelerde FPETS/FHE, rate limiting ve guard sertifikaları detaylı anlatılır.</p>
     </section>
 
-    <section class="panel">
-      <h2>Medya ve Demo Seti</h2>
-      <p><code>media/README.md</code> icinde YouTube embed, dosya aciklamalari ve yeniden kullanilabilir iframe yer alir.</p>
+    <section class="glass-panel" id="media">
+      <h3>Medya kütüphanesi</h3>
+      <p>Sunumu destekleyen görseller ve video; README içerisinde iframe açıklamasıyla birlikte bir YouTube embed yer alır.</p>
       <figure>
-        <img src="media/infografik.png" alt="MCP ekosistemi infografik">
-        <figcaption>MCP ekosistemi ve tehdit taksonomisi ozeti (<code>media/infografik.png</code>).</figcaption>
+        <img src="media/infografik.png" alt="MCP tehdit taksonomisi ve ekosistem infografik">
+        <figcaption><code>media/infografik.png</code> — MCP tehdit ve savunma özet infografiği.</figcaption>
       </figure>
       <figure>
-        <img src="media/MCP.png" alt="MCP mimarisi sekli">
-        <figcaption>MCP mimarisi / ekosistemi gorseli (<code>media/MCP.png</code>).</figcaption>
+        <img src="media/MCP.png" alt="MCP mimarisi şeması">
+        <figcaption><code>media/MCP.png</code> — MCP mimari bileşenlerin görselleştirilmesi.</figcaption>
       </figure>
       <figure>
         <video controls poster="media/MCP.png">
           <source src="media/Yapay_Zeka_Ajanlari.mp4" type="video/mp4">
-          Tarayiciniz video etiketini desteklemiyor. Dosya: media/Yapay_Zeka_Ajanlari.mp4
+          Tarayıcınız video oynatamayınca MP4 dosyasını kullanın.
         </video>
-        <figcaption>Yapay Zeka Ajanlari icin MCP demosu (ayrica <a href="https://www.youtube.com/watch?v=MgGM5rkxL0c">YouTube</a> linki mevcuttur).</figcaption>
+        <figcaption>Demo video: <code>media/Yapay_Zeka_Ajanlari.mp4</code> (ve <a href="https://www.youtube.com/watch?v=MgGM5rkxL0c">YouTube versiyonu</a>).</figcaption>
       </figure>
     </section>
 
-    <section class="panel">
-      <h2>Referans Kutuphanesi (18 PDF)</h2>
-      <p><code>reference/Readme.md</code> her kaynak icin EN/TR ozet sunar. Asagida basliklar ve odak konulari listelenmistir:</p>
+    <section class="glass-panel" id="references">
+      <h3>Reference kitaplığı (01–18)</h3>
+      <p>Her makalenin Readme'de Türkçe/İngilizce özetleri var; aşağıda hızlı referans amacıyla başlık ve odak listesi:</p>
       <table>
         <thead>
           <tr>
             <th>#</th>
-            <th>Baslik</th>
-            <th>Odak</th>
+            <th>Başlık</th>
+            <th>Odağı</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>01</td><td>Landscape, Security Threats, and Future Directions</td><td>16 faaliyet &amp; tehdit taksonomisi</td></tr>
-          <tr><td>02</td><td>Advancing Multi-Agent Systems Through MCP</td><td>Multi-agent mimari ve kullanima hazirlik</td></tr>
-          <tr><td>03</td><td>Survey of Agent Interoperability Protocols</td><td>MCP vs ACP/A2A/ANP karsilastirmasi</td></tr>
-          <tr><td>04</td><td>MCP at First Glance</td><td>1899 sunuculuk guvenlik analizi</td></tr>
-          <tr><td>05</td><td>MCPmed</td><td>Bioinformatik API'leri icin MCP</td></tr>
-          <tr><td>06</td><td>Making REST APIs Agent-Ready</td><td>OpenAPI'den AutoMCP derleyicisi</td></tr>
-          <tr><td>07</td><td>MCPToolBench++</td><td>4k+ sunuculuk arac benchmark'i</td></tr>
-          <tr><td>08</td><td>MCP-Guard</td><td>Katmanli savunma &amp; MCP-AttackBench</td></tr>
-          <tr><td>09</td><td>Help or Hurdle?</td><td>MCPGAUGE ile performans degerleme</td></tr>
-          <tr><td>10</td><td>MCP-Universe</td><td>Gercek sunucularda LLM testleri</td></tr>
-          <tr><td>11</td><td>LiveMCP-101</td><td>Plan tabanli stres testi</td></tr>
-          <tr><td>12</td><td>Adaptive Transport Systems Survey</td><td>Ulasimda MCP benzeri mimariler</td></tr>
-          <tr><td>13</td><td>AgentX</td><td>FaaS barindirmali ajan calisma akislari</td></tr>
-          <tr><td>14</td><td>Automatic Red Teaming</td><td>AutoMalTool ile arac zehirleme</td></tr>
-          <tr><td>15</td><td>Asset Discovery in Critical Infrastructures</td><td>LLM tabanli varlik kesfi</td></tr>
-          <tr><td>16</td><td>Integrating GenAI &amp; MCP</td><td>Uygulamali ML + MCP sentezi</td></tr>
-          <tr><td>17</td><td>Survey of MCP</td><td>Standart baglam katmani avantaj/riski</td></tr>
-          <tr><td>18</td><td>AI Agents for Economic Research</td><td>Ekonomide ajan uygulamalari</td></tr>
+          <tr><td>01</td><td>Landscape, Security Threats, Future Research</td><td>16 faaliyetli MCP tehdit tablosu</td></tr>
+          <tr><td>02</td><td>Advancing Multi-Agent Systems</td><td>MCP ile çok ajanlı koordinasyon</td></tr>
+          <tr><td>03</td><td>Survey of Agent Interoperability</td><td>MCP vs ACP/A2A/ANP karşılaştırma</td></tr>
+          <tr><td>04</td><td>MCP at First Glance</td><td>1899 MCP sunucu taraması</td></tr>
+          <tr><td>05</td><td>MCPmed</td><td>Bioinformatik MCP servisleri</td></tr>
+          <tr><td>06</td><td>Making REST APIs Agent-Ready</td><td>OpenAPI'den AutoMCP</td></tr>
+          <tr><td>07</td><td>MCPToolBench++</td><td>4k+ araç benchmark</td></tr>
+          <tr><td>08</td><td>MCP-Guard</td><td>Katmanlı savunma framework</td></tr>
+          <tr><td>09</td><td>Help or Hurdle?</td><td>MCPGAUGE performans analizi</td></tr>
+          <tr><td>10</td><td>MCP-Universe</td><td>Gerçek MCP sunucu benchmark</td></tr>
+          <tr><td>11</td><td>LiveMCP-101</td><td>Plan bazlı stres testi</td></tr>
+          <tr><td>12</td><td>Adaptive Transport Systems</td><td>Ulaşım sistemlerinde MCP</td></tr>
+          <tr><td>13</td><td>AgentX</td><td>FaaS ortamında ajan orkestrasyonu</td></tr>
+          <tr><td>14</td><td>Automatic Red Teaming</td><td>AutoMalTool ile zehirleme</td></tr>
+          <tr><td>15</td><td>Asset Discovery</td><td>LLM tabanlı altyapı keşfi</td></tr>
+          <tr><td>16</td><td>GenAI &amp; MCP</td><td>Uygulamalı ML entegrasyonu</td></tr>
+          <tr><td>17</td><td>Survey of MCP</td><td>Standardizasyon ve bağlam</td></tr>
+          <tr><td>18</td><td>AI Agents for Economic Research</td><td>Ekonomide ajan uygulamaları</td></tr>
         </tbody>
       </table>
-      <p>Kaynaklar, makale yazimi ve sunumlarda dogrudan alinti icin PDF formatinda hazir tutulur.</p>
     </section>
 
-    <section class="panel">
-      <h2>Proje Nasil Kullanilir?</h2>
-      <ol class="steps">
-        <li><strong>Depoyu klonla.</strong> <code>git clone</code> sonrasi <code>paper/</code>, <code>media/</code> ve <code>reference/</code> klasorlerinin tam geldigini dogrula.</li>
-        <li><strong>Makaleyi derle.</strong> <code>paper</code> klasorunde paylasilan <code>pdflatex/bibtex</code> adimlarini uygula; hata olursa <code>paper.log</code>'u incele.</li>
-        <li><strong>Medya setini guncelle.</strong> Yeni gorsel/video eklerken <code>media/README.md</code> altina aciklama ve gerekirse embed kodunu ekle.</li>
-        <li><strong>Kaynaklara atif yap.</strong> <code>reference/Readme.md</code> icindeki TR/EN ozetleri kullanarak ilgili PDF'leri makaleye veya sunuma referansla.</li>
-        <li><strong>Guvenlik kontrollerini uygula.</strong> Arac zehirlenmesi tarayicilari, sandbox profilleri ve OAuth/mTLS konfigurasyonuna dair checklist'i CI/CD'ye entegre et.</li>
-      </ol>
-    </section>
-
-    <section class="panel">
-      <h2>Yol Haritasi ve Fikirler</h2>
+    <section class="glass-panel" id="usage">
+      <h3>Nasıl çalışılır?</h3>
       <div class="grid grid-2">
-        <div class="card">
-          <h3>Kisa Vade</h3>
+        <div class="step-card">
+          <span>Adım 1</span>
+          <h4>Repo düzeni</h4>
+          <p>Çekirdek README, alt klasör Readme'leri (paper/media/reference) ve .editorconfig gibi konfigürasyonlar projeyi özetliyor.</p>
+        </div>
+        <div class="step-card">
+          <span>Adım 2</span>
+          <h4>Derleme</h4>
+          <p>paper dizininde <code>pdflatex</code> + <code>bibtex</code> + çift <code>pdflatex</code> komutlarıyla PDF yaratın; hatalar paper.log içinde.</p>
+        </div>
+        <div class="step-card">
+          <span>Adım 3</span>
+          <h4>Medya güncelleme</h4>
+          <p>Yeni görselleri media dizinine koyun, README içine iframe veya açıklama ekleyin.</p>
+        </div>
+        <div class="step-card">
+          <span>Adım 4</span>
+          <h4>Referans kullanımı</h4>
+          <p>Reference/Readme.md'den TR/EN özetleri alın, ihtiyaca göre paper ya da sunumda atıf olarak kullanın.</p>
+        </div>
+      </div>
+      <p style="margin-top:1rem;color:var(--muted);">Geliştirmeleri versiyon kontrolüne alırken, yeni PDF'leri <code>reference/</code> altına ekleyip Readme'yi güncellemek en iyi uygulamadır.</p>
+    </section>
+
+    <section class="glass-panel">
+      <h3>Kısa vade / orta vade fikirleri</h3>
+      <div class="grid grid-2">
+        <div class="glass-panel" style="padding:1.25rem">
+          <h4>Kısa vade</h4>
           <ul>
-            <li>Makale icinden <code>protocol.png</code> ve medya klasorundaki gorselleri senkronize et</li>
-            <li>Reference klasorune SBOM veya metadata ekle</li>
-            <li>MCP-Guard ve AutoMalTool senaryolarini yeniden uygulayip log'lari ek dokuman olarak paylas</li>
+            <li>Protocol.png ve medya görsellerinin makale ile senkronizasyonunu sağla.</li>
+            <li>Reference klasörüne README dikeyine kısa indeks ekle.</li>
+            <li>Medya raporlarına meta bilgi (boyut, kullanıcı) ekle.</li>
           </ul>
         </div>
-        <div class="card">
-          <h3>Orta Vade</h3>
+        <div class="glass-panel" style="padding:1.25rem">
+          <h4>Orta vade</h4>
           <ul>
-            <li>LiveMCP-101 ve MCPToolBench++ sorgularindan otomatik test scriptleri uret</li>
-            <li>MCP sunuculari icin OAuth/mTLS referans konfigurasyonu yaz</li>
-            <li>Medya klasorune yeni diagramlar (A2AS, BASIC modeli) ekle</li>
+            <li>LiveMCP-101/MCPToolBench++ testlerini betik ile otomatikleştir.</li>
+            <li>OAuth/mTLS konfigürasyon örnekleri oluşturup belgeye ekle.</li>
+            <li>MCP-Guard ve AutoMalTool senaryolarını detaylı case study olarak yansıt.</li>
           </ul>
         </div>
       </div>
     </section>
+
+    <p class="footer-note">Bu index sayfası depo içeriğini anlatan hızlı rehber niteliğindedir; güncellemelerle birlikte yeniden gözden geçirilmelidir.</p>
   </main>
 </body>
 </html>
