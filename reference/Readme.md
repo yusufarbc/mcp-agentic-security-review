@@ -1,4 +1,4 @@
-**Model Bağlam Protokolü (MCP) Ekosisteminin Eleştirel Güvenlik İncelemesi**
+#**Model Bağlam Protokolü (MCP) Ekosisteminin Eleştirel Güvenlik İncelemesi**
 
 ### Özet
 Model Bağlam Protokolü (MCP), Büyük Dil Modelleri (LLM) ile harici araçlar ve kaynaklar arasındaki çift yönlü, şema tabanlı iletişimi ve dinamik keşif süreçlerini standartlaştırmaktadır. Bu protokol, entegrasyon parçalanmasını (fragmentation) azaltmayı hedeflerken; araç zehirleme (tool poisoning), istem enjeksiyonu (prompt injection), sunucu ifşası ve yapılandırma hataları gibi yeni risk vektörlerini de beraberinde getirmektedir. Literatürde, MCP sunucu yaşam döngüsü —oluşturma, dağıtım, işletim ve bakım— 16 temel faaliyet ve bunlara karşılık gelen 16 tehdit senaryosu üzerinden sınıflandırılmaktadır. 1.899 sunucu üzerinde yapılan taramalarda, sunucuların %7,2’sinde genel güvenlik açıkları, %5,5’inde araç zehirleme riski ve %66’sında "kod kokusu" (code smell) olarak nitelendirilen yapısal sorunlar tespit edilmiştir.
