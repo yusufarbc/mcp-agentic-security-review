@@ -14,10 +14,10 @@ Model Context Protocol (MCP) ve MCP tabanlı yapay zeka ajanlarının güvenlik 
 Bu depodaki ana belge `research.md`, MCP'nin teknik mimarisi, güvenlik tehdit modeli, iyi uygulamalar ve literatür özetiyle birlikte güncel olaylar (X/Twitter bağlantılarıyla) bölümlerini içerir. Akademik ve sektörel kaynaklar Türkçe özetlerle zenginleştirilmiştir. Depo aynı zamanda bir akademik bildiri taslağı (`paper/paper.pdf`) ve detaylı referans arşivi (`reference/`) barındırır.
 
 ## Depo yapısı
-- `research.md`: Ana rapor (özet, mimari, tehdit modeli, iyi uygulamalar, literatür, Google Scholar sentezi, güncel olaylar ve genişletilmiş analiz).
-- `paper/`: Makale/çalışma taslakları (IEEE formatında bildiri, `paper/paper.pdf`).
-- `reference/`: Atıf/referans notları ve yardımcı materyaller.
-- `media/`: Depoya ait video ve görsel gibi multimedya dosyaları.
+- `research.md`: Ana rapor (öz, mimari, tehdit modeli, iyi uygulamalar, literatür, Google Scholar sentezi, güncel olaylar ve genişletilmiş analiz).
+- `paper/`: Makale/çalışma taslakları ve IEEE formatında bildiri (`paper/paper.pdf`, açıklama için `paper/README.md`).
+- `reference/`: Literatür listesi ve ilgili çalışmaların PDF'leri (özetler için `reference/Readme.md`).
+- `media/`: Depoya ait video ve görseller (detaylar için `media/README.md`).
 
 ## Hızlı başlangıç
 1. **Gereksinimler**  
@@ -25,32 +25,26 @@ Bu depodaki ana belge `research.md`, MCP'nin teknik mimarisi, güvenlik tehdit m
 2. **Depoyu güncelleme**  
    Depo zaten yerelinizde. Güncel tutmak için normal Git akışını kullanabilirsiniz:
    - `git pull`
-3. **Okuma sırası**  
+3. **Önerilen okuma sırası**  
    - Genel kavramsal ve teknik arka plan için: `research.md`
    - Akademik bildiri taslağı için: `paper/paper.pdf`
+   - Literatür özeti ve kaynak listesi için: `reference/Readme.md`
 
 ## Video ve medya
-Bu depodaki çalışmanın özetini ve MCP tabanlı yapay zeka ajanlarının çalışma prensibini gösteren video ve görseller.
+Bu depo, MCP tabanlı yapay zeka ajanlarıyla ilgili kısa bir tanıtım videosu ve iki temel görsel içerir.
 
-### YouTube videosu
-- **Başlık:** Yapay Zeka Ajanları için MCP  
-- **Bağlantı:** https://www.youtube.com/watch?v=MgGM5rkxL0c
+### Video
+- **YouTube:**  
+  [Yapay Zeka Ajanları için MCP](https://www.youtube.com/watch?v=MgGM5rkxL0c)
+- **Yerel video dosyası:**  
+  [`media/Yapay_Zeka_Ajanlari.mp4`](media/Yapay_Zeka_Ajanlari.mp4)
 
-Tıklanabilir bir önizleme için:
+YouTube videosuna tıklanabilir bir önizleme:
 
 [![Yapay Zeka Ajanları için MCP – YouTube önizleme](media/infografik.png)](https://www.youtube.com/watch?v=MgGM5rkxL0c)
 
-### Yerel video (HTML5 oynatıcı)
-Aynı videonun depo içindeki sürümü aşağıdaki HTML5 oynatıcı ile yerel olarak (VS Code Markdown önizlemesi veya tarayıcıda) çalıştırılabilir:
-
-<video controls width="640">
-  <source src="media/Yapay_Zeka_Ajanlari.mp4" type="video/mp4">
-  Tarayıcınız video etiketini desteklemiyorsa dosyayı doğrudan açabilirsiniz:
-  <a href="media/Yapay_Zeka_Ajanlari.mp4">media/Yapay_Zeka_Ajanlari.mp4</a>
-</video>
-
 ### Görseller
-| Önizleme | Açıklama | Dosya |
+| Görsel | Açıklama | Yol |
 | --- | --- | --- |
 | ![MCP Infografik](media/infografik.png) | MCP ekosistemi ve tehdit modeline dair infografik. | `media/infografik.png` |
 | ![MCP Şeması](media/MCP.png) | MCP mimarisi ve bileşenlerini gösteren şema. | `media/MCP.png` |
@@ -58,7 +52,6 @@ Aynı videonun depo içindeki sürümü aşağıdaki HTML5 oynatıcı ile yerel 
 ## Ana belgeler
 - `research.md`: Tam rapor ve genişletilmiş “Güncel Olaylar” bölümü (her X bağlantısı için tek satırlık bağlam açıklaması ile).
 - `paper/paper.pdf`: IEEE formatında hazırlanmış, MCP'nin mimari paradigmalarını, tehdit taksonomisini ve ajanlık güvenlik yönetimini eleştirel biçimde inceleyen akademik bildiri taslağı.
-- `reference/Readme.md`: Literatür listesi ve ilgili çalışmaların Türkçe özetleri.
 
 ## Katkı ve iletişim
 Geri bildirim, katkı ve sorularınız için GitHub üzerinden issue açabilir veya depo sahibiyle iletişime geçebilirsiniz.
