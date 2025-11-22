@@ -334,6 +334,18 @@
       </div>
     </section>
 
+    <section class="glass-panel" id="study">
+      <h3>Araştırmanın kısa özeti</h3>
+      <p>Makale, MCP sunucu yaşam döngüsünü (oluşturma, dağıtım, işletim, bakım) ve güvenlik risklerini sistematik bir tabloya döker.</p>
+      <ul>
+        <li><strong>Mimari sınırlar:</strong> Host/Client tarafı araç keşfini yönetir, JSON-RPC sunucuları ise kaynakları ve araçları sunar; taşıma katmanı seçimleri (STDIO vs HTTPS/SSE) ve kimlik doğrulama (OAuth, mTLS, scoped token) saldırı yüzeyini belirler.</li>
+        <li><strong>Dört aktör, 16 senaryo:</strong> Geliştirici kaynaklı (shadow server, namespace collision), dış saldırgan (indirect prompt injection, setup fraud), kötü niyetli kullanıcı (STAC zinciri, sandbox kaçışı, session reuse) ve yazılım/konfigürasyon hataları (credential leak, command injection).</li>
+        <li><strong>Ampirik veriler:</strong> 1.899 sunuculuk taramada %7,2 genel açık, %5,5 araç zehirleme riski, %66 kod kokusu ve %14,4 hata kalıbı bulundu; MCP-özel tarayıcılar olmadan bu bulgular kaçıyor.</li>
+        <li><strong>Benchmark sonuçları:</strong> MCPGAUGE tüm senaryolarda fayda getirmiyor; MCP-Universe &amp; LiveMCP-101’de < %60 başarı gözlendi; MCPToolBench++ bağlam çeşitliliği darboğazlarını vurguluyor; AutoMalTool savunmaları aşabiliyor ancak MCP-Guard %96 doğrulukla tespit ediyor.</li>
+        <li><strong>Savunma stratejileri:</strong> IFC + taint tracking, dağıtıma özel sandbox profilleri, TLS/mTLS + OAuth 2.1 resource indicator’ları, kısa ömürlü scope tokenlar, plan tabanlı test + logging + red team, imzalı paket/SBOM ve OpenAPI’den otomatik sunucu üretimi.</li>
+      </ul>
+    </section>
+
     <section id="forecast" class="glass-panel">
       <div class="tag-row">
         <span class="tag">Yol haritası</span>
@@ -383,6 +395,7 @@
             <li>16 senaryo: araç zehirlenmesi, prompt enjeksiyonu, girdi doğrulama hataları</li>
             <li>1899 sunuculuk analizde %7.2 açık, %5.5 araç zehirlenmesi, %66 kod kokusu</li>
             <li>Benchmark örnekleri: MCPGAUGE, MCPToolBench++, LiveMCP-101</li>
+            <li>Red team çıktısı: AutoMalTool çoğu savunmayı aşabiliyor; MCP-Guard %96 doğruluğa ulaşıyor</li>
           </ul>
         </div>
         <div class="glass-panel" style="padding:1.5rem">
@@ -392,6 +405,7 @@
             <li>TLS/mTLS, OAuth 2.1 + scoped token, SBOM ve imzalı paket</li>
             <li>Guard modelleri, AutoMalTool red team prosedürleri</li>
             <li>OpenAPI'den AutoMCP derleyici, plan tabanlı testler</li>
+            <li>CI/CD’ye MCP tarayıcıları, insan onaylı guard akışları, kısa ömürlü kimlik bilgileri</li>
           </ul>
         </div>
       </div>
@@ -412,7 +426,7 @@
         </figure>
         <figure class="glass-panel" style="padding:1rem;">
           <img src="media/model.png" alt="MCP mimarisi ve Python sunucu kurulum adımları">
-          <figcaption><code>model.png</code> — MCP mimarisi + Python ile sunucu geliştirme sürecini blok blok açıklayan poster.</figcaption>
+          <figcaption> — MCP mimarisi + Python ile sunucu geliştirme sürecini blok blok açıklayan poster.</figcaption>
         </figure>
         <figure class="glass-panel" style="padding:1rem;">
           <img src="media/post.jpeg" alt="MCP host, protokol katmanı ve tehdit vektörlerini gösteren şema">
@@ -427,13 +441,19 @@
           <figcaption><code>protocol.png</code> — MCP’nin IDE’ler, chat arayüzleri ve veri kaynakları arasında iki yönlü veri akışını özetler.</figcaption>
         </figure>
       </div>
-      <figure style="margin-top:1.5rem;">
-        <video controls poster="https://img.youtube.com/vi/MgGM5rkxL0c/maxresdefault.jpg">
-          <source src="media/Yapay_Zeka_Ajanlari.mp4" type="video/mp4">
-          Tarayıcınız video oynatamayınca MP4 dosyasını kullanın.
-        </video>
-        <figcaption>Demo video: <code> media/Yapay_Zeka_Ajanlari.mp4</code> (ve <a href="https://www.youtube.com/watch?v=MgGM5rkxL0c">YouTube versiyonu</a>).</figcaption>
-      </figure>
+    </section>
+
+    <section class="glass-panel" id="demo">
+      <h3>Demo video (YouTube)</h3>
+      <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:20px;border:1px solid var(--border);">
+        <iframe
+          src="https://www.youtube.com/embed/MgGM5rkxL0c"
+          title="Yapay Zeka Ajanları için MCP"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </div>
     </section>
 
     <section class="glass-panel" id="references">
@@ -468,33 +488,6 @@
           <tr><td>18</td><td>AI Agents for Economic Research</td><td>Ekonomide ajan uygulamaları</td></tr>
         </tbody>
       </table>
-    </section>
-
-    <section class="glass-panel" id="usage">
-      <h3>Nasıl çalışılır?</h3>
-      <div class="grid grid-2">
-        <div class="step-card">
-          <span>Adım 1</span>
-          <h4>Repo düzeni</h4>
-          <p>Çekirdek README, alt klasör Readme'leri (paper/media/reference) ve .editorconfig gibi konfigürasyonlar projeyi özetliyor.</p>
-        </div>
-        <div class="step-card">
-          <span>Adım 2</span>
-          <h4>Derleme</h4>
-          <p>paper dizininde <code>pdflatex</code> + <code>bibtex</code> + çift <code>pdflatex</code> komutlarıyla PDF yaratın; hatalar paper.log içinde.</p>
-        </div>
-        <div class="step-card">
-          <span>Adım 3</span>
-          <h4>Medya güncelleme</h4>
-          <p>Yeni görselleri media dizinine koyun, README içine iframe veya açıklama ekleyin.</p>
-        </div>
-        <div class="step-card">
-          <span>Adım 4</span>
-          <h4>Referans kullanımı</h4>
-          <p>Reference/Readme.md'den TR/EN özetleri alın, ihtiyaca göre paper ya da sunumda atıf olarak kullanın.</p>
-        </div>
-      </div>
-      <p style="margin-top:1rem;color:var(--muted);">Geliştirmeleri versiyon kontrolüne alırken, yeni PDF'leri <code>reference/</code> altına ekleyip Readme'yi güncellemek en iyi uygulamadır.</p>
     </section>
 
     <section class="glass-panel">

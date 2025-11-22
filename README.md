@@ -16,6 +16,25 @@ devices through a single schema. Our study focuses on:
 - **Defense stack** – IFC + taint tracking, OAuth/mTLS, guard models, FPETS/FHE, plan-based stress tests, OpenAPI → AutoMCP.
 - **Ecosystem radar** – Community discussions, enterprise rollouts, future-ready tooling ideas.
 
+### Deep-dive snapshot from the paper
+
+- **Architecture boundaries:** the MCP host/client orchestrates discovery and routes LLM plans to JSON-RPC servers; each
+  server exposes tools/resources while transport (STDIO vs HTTPS/SSE) and identity controls (OAuth, mTLS, scoped tokens)
+  define how much of the external surface becomes reachable.
+- **Four actor classes:** malicious developers (shadow servers, namespace collisions), external attackers (indirect prompt
+  injection, setup fraud), malicious users (STAC chains, sandbox escape, session reuse), and software/config errors
+  (credential leaks, command injection, weak TLS/OAuth baselines).
+- **Empirical findings:** scanning 1,899 open MCP servers revealed 7.2% general exposure, 5.5% tool poisoning risk,
+  66% code smell prevalence, and 14.4% recurring bug patterns—underscoring the need for MCP-specific scanners beyond
+  generic static analysis.
+- **Benchmark lessons:** MCPGAUGE shows integration isn’t universally positive; MCP-Universe/LiveMCP-101 demonstrate
+  <60% success on real servers due to long-context and unknown tool behaviors; MCPToolBench++ highlights format diversity
+  bottlenecks; AutoMalTool can bypass defenses while MCP-Guard’s multi-layered detection reaches 96% accuracy.
+- **Mitigation priorities:** IFC + taint tracking, sandbox profiles, TLS/mTLS + OAuth 2.1 resource indicators, scoped
+  short-lived tokens, plan-based testing + anomaly logging, red-team drills, signed packages, SBOMs, and schema integrity
+  validation. Recommended ops steps include CI/CD MCP scanners, guard-model+human approvals for high-impact actions, and
+  OpenAPI-driven automatic server generation to reduce manual errors.
+
 ## Repository map
 
 | Path           | Summary                                                                                                       |
