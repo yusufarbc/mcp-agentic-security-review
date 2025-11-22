@@ -252,6 +252,7 @@
     <nav>
       <h1>MCP Agentic Security Review</h1>
       <div class="links">
+        <a href="#mcp-nedir">MCP Nedir?</a>
         <a href="#forecast">Neler Var</a>
         <a href="#security">Güvenlik</a>
         <a href="#media">Medya</a>
@@ -289,6 +290,50 @@
       </div>
     </section>
 
+    <section id="mcp-nedir" class="glass-panel">
+      <h3>Model Bağlam Protokolü (MCP) Nedir?</h3>
+      <p>
+        Model Bağlam Protokolü'nü (MCP) yapay zekâlar için bir <strong>"App Store"</strong> veya evrensel bir <strong>"USB-C portu"</strong> gibi düşünebilirsiniz. Nasıl ki App Store, telefonunuza kolayca yeni özellikler (uygulamalar) eklemenizi sağlayan standart bir platform ise, MCP de yapay zekâ modellerine yeni yetenekler (araçlar) eklemeyi basitleştirir. "Bir kez yaz, her yerde çalıştır" mantığıyla ekosistemi büyütür, güvenliği artırır ve yeniliğin önünü açar.
+      </p>
+      <div class="grid grid-2" style="align-items: start;">
+        <div>
+          <h4>Pratikteki Karşılığı</h4>
+          <ul>
+            <li><strong>Karmaşık Dünya (MCP'siz):</strong> Her yapay zekâ (LLM), farklı bir araca (hava durumu API'si, hesap makinesi, veritabanı vb.) bağlanmak için özel bir "adaptöre" ihtiyaç duyar. Bu, yüzlerce farklı şarj aleti taşımak gibidir; verimsiz, karmaşık ve yönetilemezdir.</li>
+            <li><strong>Basit Dünya (MCP ile):</strong> MCP, tüm araçlar ve modeller için evrensel bir standart sunar. Bir araç MCP uyumlu olduğunda, tüm MCP destekli yapay zekâlar tarafından anında kullanılabilir.</li>
+          </ul>
+        </div>
+        <div>
+          <figure style="margin: 0;">
+            <a href="media/MCP.png" target="_blank">
+              <img src="media/MCP.png" alt="MCP Mimarisi">
+            </a>
+            <figcaption>MCP, farklı Büyük Dil Modelleri (LLM'ler) ve araçlar arasında standart bir köprü kurarak karmaşıklığı ortadan kaldırır.</figcaption>
+          </figure>
+        </div>
+      </div>
+      <div class="grid grid-2" style="align-items: start; margin-top: 2rem;">
+        <div>
+          <h4>Teknik İşleyişi</h4>
+          <p>MCP'nin temel akışı, bir istemci (genellikle LLM'in kendisi veya bir ajan) ile bir MCP sunucusu (aracı barındıran) arasında gerçekleşir. Bu süreç birkaç basit adımdan oluşur:</p>
+          <ol>
+            <li><strong>Araç Keşfi (Discovery):</strong> İstemci, sunucuda hangi araçların mevcut olduğunu ve bu araçların hangi işlevleri (örneğin `getCurrentWeather`) hangi parametrelerle (`location`) sunduğunu sorar.</li>
+            <li><strong>İstek (Request):</strong> LLM, belirli bir aracı kullanmaya karar verdiğinde, istemci bu aracın işlevini çağırmak için sunucuya standart bir JSON formatında istek gönderir.</li>
+            <li><strong>Yürütme (Execution):</strong> MCP sunucusu, gelen isteği alır, doğrular ve ilgili aracın kodunu çalıştırır.</li>
+            <li><strong>Yanıt (Response):</strong> Araç çalıştıktan sonra elde edilen sonuç (örneğin, hava durumu bilgisi), yine standart bir JSON formatında istemciye geri gönderilir. LLM bu çıktıyı kullanarak kullanıcıya yanıt üretir.</li>
+          </ol>
+        </div>
+        <div>
+          <figure style="margin: 0;">
+            <a href="media/protocol.png" target="_blank">
+              <img src="media/protocol.png" alt="MCP Protokol Akışı">
+            </a>
+            <figcaption>İstemci ve sunucu arasındaki standartlaştırılmış keşif, istek ve yanıt döngüsü.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
     <section id="forecast" class="glass-panel">
       <div class="tag-row">
         <span class="tag">Yol haritası</span>
@@ -310,9 +355,10 @@
           <h4>media/</h4>
           <p>Görsel anlatım ve demo video. YouTube embed + yerel MP4 dosyası var.</p>
           <ul>
-            <li>infografik: tehdit taksonomisi</li>
-            <li>MCP mimarisi: sistem bileşenleri</li>
-            <li>Yapay Zeka Ajanları demosu (MP4 + embed)</li>
+            <li>infografik: MCP/ACP/A2A/ANP kıyas infografiği</li>
+            <li>MCP mimarisi &amp; NotebookLM posterleri (MCP.png, model.png)</li>
+            <li>Tehdit vektörleri görseli (post.jpeg) ve hafif diyagramlar (diagram.png, protocol.png)</li>
+            <li>Yapay Zeka Ajanları demosu (MP4 + YouTube embed)</li>
           </ul>
         </div>
         <div class="glass-panel" style="padding:1.5rem">
@@ -354,21 +400,39 @@
 
     <section class="glass-panel" id="media">
       <h3>Medya kütüphanesi</h3>
-      <p>Sunumu destekleyen görseller ve video; README içerisinde iframe açıklamasıyla birlikte bir YouTube embed yer alır.</p>
-      <figure>
-        <img src="media/infografik.png" alt="MCP tehdit taksonomisi ve ekosistem infografik">
-        <figcaption><code>media/infografik.png</code> — MCP tehdit ve savunma özet infografiği.</figcaption>
-      </figure>
-      <figure>
-        <img src="media/MCP.png" alt="MCP mimarisi şeması">
-        <figcaption><code>media/MCP.png</code> — MCP mimari bileşenlerin görselleştirilmesi.</figcaption>
-      </figure>
-      <figure>
-        <video controls poster="media/MCP.png">
+      <p>`media/README.md`, her varlığın yeniden kullanım yönergelerini ve YouTube embed kodunu içerir. Aşağıdaki galeri, klasördeki tüm dosyaların hızlı özetidir.</p>
+      <div class="grid grid-2">
+        <figure class="glass-panel" style="padding:1rem;">
+          <img src="media/infografik.png" alt="Agent protokolleri infografik">
+          <figcaption><code>infografik.png</code> — Ajanlar arası iletişimde MCP/ACP/A2A/ANP çözümlerini gösteren NotebookLM infografiği.</figcaption>
+        </figure>
+        <figure class="glass-panel" style="padding:1rem;">
+          <img src="media/MCP.png" alt="Model Bağlam Protokolü özetleri">
+          <figcaption><code>MCP.png</code> — MCP standardının motivasyonu, başarı oranı ve güvenlik kaygılarını anlatan Türkçe görsel.</figcaption>
+        </figure>
+        <figure class="glass-panel" style="padding:1rem;">
+          <img src="media/model.png" alt="MCP mimarisi ve Python sunucu kurulum adımları">
+          <figcaption><code>model.png</code> — MCP mimarisi + Python ile sunucu geliştirme sürecini blok blok açıklayan poster.</figcaption>
+        </figure>
+        <figure class="glass-panel" style="padding:1rem;">
+          <img src="media/post.jpeg" alt="MCP host, protokol katmanı ve tehdit vektörlerini gösteren şema">
+          <figcaption><code>post.jpeg</code> — Host ve protokol katmanının yanında 17 tehdit kategorisini (prompt injection, tool poisoning vb.) listeler.</figcaption>
+        </figure>
+        <figure class="glass-panel" style="padding:1rem;">
+          <img src="media/diagram.png" alt="LLM, MCP istemcisi ve çoklu sunucuların bağlantısı">
+          <figcaption><code>diagram.png</code> — LLM’in MCP istemcisi aracılığıyla birden fazla sunucu/araçla konuştuğunu gösteren basit akış.</figcaption>
+        </figure>
+        <figure class="glass-panel" style="padding:1rem;">
+          <img src="media/protocol.png" alt="MCP protokolünün veri kaynakları ve araçlarla bağlantısı">
+          <figcaption><code>protocol.png</code> — MCP’nin IDE’ler, chat arayüzleri ve veri kaynakları arasında iki yönlü veri akışını özetler.</figcaption>
+        </figure>
+      </div>
+      <figure style="margin-top:1.5rem;">
+        <video controls poster="https://img.youtube.com/vi/MgGM5rkxL0c/maxresdefault.jpg">
           <source src="media/Yapay_Zeka_Ajanlari.mp4" type="video/mp4">
           Tarayıcınız video oynatamayınca MP4 dosyasını kullanın.
         </video>
-        <figcaption>Demo video: <code>media/Yapay_Zeka_Ajanlari.mp4</code> (ve <a href="https://www.youtube.com/watch?v=MgGM5rkxL0c">YouTube versiyonu</a>).</figcaption>
+        <figcaption>Demo video: <code> media/Yapay_Zeka_Ajanlari.mp4</code> (ve <a href="https://www.youtube.com/watch?v=MgGM5rkxL0c">YouTube versiyonu</a>).</figcaption>
       </figure>
     </section>
 

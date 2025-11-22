@@ -1,60 +1,75 @@
 # MCP-Agentic-Security-Review
 
-https://yusufarbc.github.io/MCP-Agentic-Security-Review/
+![MCP architecture and measurements](media/MCP.png)
 
-Bu repo, Model Context Protocol (MCP) ekosisteminin mimari ve güvenlik boyutlarını inceleyen akademik çalışmayı, kullanılan görsel/video materyallerini ve literatür referanslarını bir araya getirir.
+This repository collects an IEEE-style paper, media kit, 18-paper reference library, and a landing page (`index.html`)
+to document the architecture, threat landscape, and defenses of the Model Context Protocol (MCP) ecosystem.
 
-- `paper/` — IEEE formatında LaTeX makale taslağı ve derlenmiş PDF.
-- `media/` — Makale ve sunumlarda kullanılan infografikler ve video.
-- `reference/` — MCP ve ajan sistemleri üzerine derlenmiş akademik makaleler.
+## What is MCP and why this study exists?
 
-## Hızlı Bakış
+Model Context Protocol is the "universal adaptor" layer that lets LLM-based agents talk to tools, APIs, data stores, and
+devices through a single schema. Our study focuses on:
 
-- **Odak:** MCP’nin mimarisi, tehdit modeli, agentic güvenlik yönetişimi ve ekosistem literatürü.
-- **Çıktı:** IEEE konferans formatında akademik makale (`paper/paper.pdf`).
-- **Veri kaynağı:** 2024–2025 arası MCP odaklı  akademik yayınlar ve endüstriyel raporlar (`reference/` klasörü).
+- **Threat taxonomy** – 4 actors, 16 scenarios (tool poisoning, prompt injection, sandbox escape, etc.).
+- **Benchmark evidence** – MCPGAUGE, MCPToolBench++, MCP-Universe, LiveMCP-101, AutoMalTool findings (e.g. 7.2% general
+  exposure, 5.5% tool poisoning risk, 66% code smell rate on 1,899 servers).
+- **Defense stack** – IFC + taint tracking, OAuth/mTLS, guard models, FPETS/FHE, plan-based stress tests, OpenAPI → AutoMCP.
+- **Ecosystem radar** – Community discussions, enterprise rollouts, future-ready tooling ideas.
 
-## Makale (paper/)
+## Repository map
 
-`paper/` dizini, IEEEtran şablonunu kullanan ana raporu içerir:
+| Path           | Summary                                                                                                       |
+| -------------- | ------------------------------------------------------------------------------------------------------------- |
+| `index.html`   | New landing page; outlines repo structure, security panorama, media gallery, and living roadmap.             |
+| `paper/`       | IEEEtran LaTeX sources (`paper.tex`), compiled PDF, log files, and the `protocol.png` figure.                 |
+| `media/`       | Infographics, architecture posters, threat diagrams, notebook renders, and the demo video.                   |
+| `reference/`   | 18 numbered PDFs covering MCP architecture, benchmark suites, AutoMalTool, MCP-Guard, Bioinformatics MCP…    |
+| root files     | `.editorconfig`, `.gitattributes`, `.gitignore`, and this README for documentation continuity.                |
 
-- `paper.tex` — LaTeX kaynak dosyası (Türkçe ve İngilizce özet, mimari, tehdit modeli, savunma çerçeveleri vb.).
-- `paper.pdf` — Derlenmiş sürüm.
-- `protocol.png` — Makalede kullanılan MCP istemci–sunucu mimarisi şeması.
+## Media showcase (`media/`)
 
-Derleme (MiKTeX / TeX Live):
+`media/README.md` describes each asset plus the YouTube embed for the demo. Highlights:
+
+![Agent protocol challenges vs solutions](media/infografik.png)
+![How to build MCP servers in Python](media/model.png)
+![MCP host, protocol layer, and threat vectors](media/post.jpeg)
+![LLM, MCP client, and multi-server tool flow](media/diagram.png)
+![MCP as standardized protocol between apps and tools](media/protocol.png)
+
+- `Yapay_Zeka_Ajanlari.mp4` – Local demo (YouTube mirror: https://www.youtube.com/watch?v=MgGM5rkxL0c).
+- `index.html` renders each asset as a card so presentations and reports can link directly to the raw files.
+
+## Reference library (`reference/`)
+
+- PDFs `01`–`18` cover topics from MCP-Guard and AutoMalTool to MCPmed, AgentX, A2AS, and AI Agents for Economic Research.
+- `reference/Readme.md` provides bilingual abstracts; when adding a paper, number it (`19 - ...`) and append a short note.
+
+## Building the paper (`paper/`)
 
 ```bash
 cd paper
 pdflatex paper.tex
-bibtex   paper   
+bibtex paper
 pdflatex paper.tex
 pdflatex paper.tex
 ```
 
-## Medya (media/)
+`paper.log` helps with troubleshooting and `protocol.png` is the architecture figure referenced inside the manuscript.
 
-`media/` dizini, makale ve sunumlarda yeniden kullanılabilecek görsel ve video dosyalarını içerir:
+## How to work with this repo
 
-![MCP Ekosistemi ve Tehdit Modeli](media/infografik.png)
+1. Open `index.html` to understand the overall story (structure, security themes, roadmap).
+2. Run the LaTeX build steps above whenever the paper changes; keep `paper.tex`, `paper.bib`, and figures in sync.
+3. Update `media/README.md` plus the landing page gallery when new visuals or videos are added.
+4. Extend the reference library by dropping PDFs into `reference/` and citing them inside the paper and README.
+5. Capture new threat data (e.g., LiveMCP-101 reruns) under `paper/` or a dedicated `reports/` folder for reproducibility.
 
-![MCP Mimarisi / Ekosistemi](media/MCP.png)
+## Roadmap ideas
 
-- `infografik.png` — MCP ekosistemi ve tehdit taksonomisini özetleyen infografik.
-- `MCP.png` — MCP mimarisi / ekosistemi görseli.
-- `Yapay_Zeka_Ajanlari.mp4` — “Yapay Zeka Ajanları için MCP” video demosunun yerel kopyası.
-- YouTube: [Yapay Zeka Ajanları için MCP](https://www.youtube.com/watch?v=MgGM5rkxL0c)
+- Publish OAuth/mTLS reference configs for MCP servers under `docs/`.
+- Version control AutoMalTool and MCP-Guard experiments, including prompts and logs.
+- Add new diagrams explaining A2AS, BASIC model, and guard-model pipelines to `media/`.
+- Generate SBOM/metadata for `reference/` via a small script and keep it evergreen.
 
-
-
-## Referanslar (reference/)
-
-`reference/` dizini, MCP ekosistemiyle ilgili temel akademik çalışmaları PDF formatında içerir. Dosya adları, makale başlığı ve kısa konusunu yansıtacak biçimde numaralandırılmıştır. Örnekler:
-
-- `01 - Model Context Protocol (MCP) - Landscape, Security Threats, and Future Research Directions.pdf`
-- `04 - Model Context Protocol (MCP) at First Glance - Studying the Security and Maintainability of MCP Servers.pdf`
-- `08 - MCP-Guard - A Defense Framework for Model Context Protocol Integrity in Large Language Model Applications.pdf`
-
-Bu dosyalar, hem makale yazımı sırasında hem de gelecekteki sunum / rapor çalışmalarında doğrudan kaynak olarak kullanılabilir.
-
-
+This README plus `index.html` form the high-level documentation for MCP-Agentic-Security-Review; keep them updated as the
+research evolves.
