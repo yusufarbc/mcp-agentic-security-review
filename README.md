@@ -1,4 +1,5 @@
 # MCP-Agentic-Security-Review
+Comprehensive security review of the Model Context Protocol (MCP) ecosystem, analyzing architecture, threat scenarios, and defense strategies for LLM-based agents. Includes visual media, benchmark datasets, and a curated reference library of 18 academic papers.
 
 ## Canlı web sayfası
 
